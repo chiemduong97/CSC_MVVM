@@ -1,0 +1,25 @@
+<resources>
+    <style name="CProgressbar.White" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="CProgressbar.Red" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/red_light</item>
+    </style>
+    <style name="bold" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/source_sans_pro_bold</item>
+    </style>
+    <style name="light" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/source_sans_pro_light</item>
+    </style>
+    <style name="italic" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/source_sans_pro_lt</item>
+    </style>
+    <style name="normal" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+    </style>
+    <style name="search_text" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/source_sans_pro_regular</item>
+        <item name="android:textSize">@dimen/text_16</item>
+    </style>
+</resources>
