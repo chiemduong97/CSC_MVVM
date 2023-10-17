@@ -1,10 +1,11 @@
 package com.example.csc_mvvm.data.remote.user
 
 import com.example.client.api.service.UserService
-import com.example.client.models.profile.DataProfileResponse
-import com.example.client.models.profile.ProfileResponse
+import com.example.csc_mvvm.data.dto.profile.DataProfileResponse
+import com.example.csc_mvvm.data.dto.profile.ProfileResponse
 import com.example.csc_mvvm.base.BaseResponse
 import com.example.csc_mvvm.data.Resource
+import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import retrofit2.Call
 import retrofit2.awaitResponse
 
@@ -52,12 +53,12 @@ class RemoteUserData(private val service: UserService) : RemoteUserDataSource {
         }
     }
 
-    override suspend fun requestGetUser(email: String): Resource<ProfileResponse> {
+    override suspend fun requestGetUser(email: String): Resource<ProfileModel> {
         return when (val response = processCall { service.getUserByEmail(email) }) {
             is BaseResponse<*> -> {
                 when {
                     response.isError -> Resource.DataError(errorCode = response.code)
-                    response.data is ProfileResponse -> Resource.Success(data = response.data as ProfileResponse)
+                    response.data is ProfileResponse -> Resource.Success(data = (response.data as ProfileResponse).toProfileModel())
                     else -> Resource.DataError(errorCode = 1001)
                 }
             }

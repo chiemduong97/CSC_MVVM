@@ -1,5 +1,6 @@
 package com.example.csc_mvvm.ui.component.login
 
+import android.app.Activity
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,22 +16,27 @@ import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.databinding.ActivityLoginEmailBinding
 import com.example.csc_mvvm.ui.base.BaseActivity
 import com.example.csc_mvvm.ui.base.ViewModelFactory
+import com.example.csc_mvvm.ui.component.profile.UserViewModel
 import com.example.csc_mvvm.utils.gone
 import com.example.csc_mvvm.utils.show
 
 
 class LoginEmailActivity : BaseActivity() {
 
-    private val loginViewModel: LoginViewModel by viewModels {
+    companion object {
+        fun newInstance(from: Activity): Intent = Intent(from, LoginEmailActivity::class.java)
+    }
+
+    private val userViewModel: UserViewModel by viewModels {
         ViewModelFactory()
     }
     private lateinit var binding: ActivityLoginEmailBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     override fun observeViewModel() {
-        loginViewModel.loginEmailLiveData.observe(this) {
+        userViewModel.loginEmailLiveData.observe(this) {
             handleLoginEmailResult(it)
         }
-        observeErrorMessage(loginViewModel.errorLiveData)
+        observeErrorMessage(userViewModel.errorLiveData)
     }
 
     override fun initViewBinding() {
@@ -74,7 +80,7 @@ class LoginEmailActivity : BaseActivity() {
                     imm.hideSoftInputFromWindow(it.windowToken, 0)
                     etEmail.clearFocus()
                 }
-                loginViewModel.checkEmail(etEmail.text.toString())
+                userViewModel.checkEmail(etEmail.text.toString())
             }
             tvRegister.setOnClickListener {
 
@@ -100,7 +106,7 @@ class LoginEmailActivity : BaseActivity() {
 
             is Resource.DataError -> {
                 binding.rllLoading.gone()
-                status.errorCode?.let { loginViewModel.showError(it) }
+                status.errorCode?.let { userViewModel.showError(it) }
             }
         }
     }

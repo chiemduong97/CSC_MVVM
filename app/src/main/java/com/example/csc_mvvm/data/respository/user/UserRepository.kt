@@ -1,10 +1,11 @@
 package com.example.csc_mvvm.data.respository.user
 
-import com.example.client.models.profile.DataProfileResponse
-import com.example.client.models.profile.ProfileRequest
-import com.example.client.models.profile.ProfileResponse
+import com.example.csc_mvvm.data.dto.profile.DataProfileResponse
+import com.example.csc_mvvm.data.dto.profile.ProfileRequest
 import com.example.csc_mvvm.app.RequestType
 import com.example.csc_mvvm.data.Resource
+import com.example.csc_mvvm.data.dto.profile.ProfileModel
+import com.example.csc_mvvm.data.local.LocalData
 import com.example.csc_mvvm.data.remote.user.RemoteUserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,6 +14,7 @@ import kotlin.coroutines.CoroutineContext
 
 class UserRepository(
     private val remoteData: RemoteUserData,
+    private val localData: LocalData,
     private val context: CoroutineContext
 ) : UserRepositorySource {
     override fun doCheckEmail(email: String): Flow<Resource<Any>> =
@@ -34,9 +36,14 @@ class UserRepository(
             emit(remoteData.requestLogin(email, password))
         }.flowOn(context)
 
-    override fun doGetUser(email: String): Flow<Resource<ProfileResponse>> =
+    override fun doGetUser(email: String): Flow<Resource<ProfileModel>> =
         flow {
             emit(remoteData.requestGetUser(email))
+        }.flowOn(context)
+
+    override fun doGetUserFromLocal(): Flow<Resource<ProfileModel>> =
+        flow {
+            emit(localData.getUser())
         }.flowOn(context)
 
     override fun updateInfo(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {

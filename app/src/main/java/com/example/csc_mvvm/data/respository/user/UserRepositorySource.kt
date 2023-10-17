@@ -1,10 +1,10 @@
 package com.example.csc_mvvm.data.respository.user
 
-import com.example.client.models.profile.DataProfileResponse
-import com.example.client.models.profile.ProfileRequest
-import com.example.client.models.profile.ProfileResponse
+import com.example.csc_mvvm.data.dto.profile.DataProfileResponse
+import com.example.csc_mvvm.data.dto.profile.ProfileRequest
 import com.example.csc_mvvm.app.RequestType
 import com.example.csc_mvvm.data.Resource
+import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepositorySource {
@@ -22,7 +22,9 @@ interface UserRepositorySource {
         password: String
     ): Flow<Resource<DataProfileResponse>>
 
-    fun doGetUser(email: String): Flow<Resource<ProfileResponse>>
+    fun doGetUser(email: String): Flow<Resource<ProfileModel>>
+
+    fun doGetUserFromLocal(): Flow<Resource<ProfileModel>>
 
     fun updateInfo(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>>
 

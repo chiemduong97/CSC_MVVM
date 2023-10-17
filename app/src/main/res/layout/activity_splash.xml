@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red_light"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".screens.splash.activity.SplashActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardCornerRadius="@dimen/dimen_100"
+        app:cardElevation="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/dimen_200"
+            android:layout_height="@dimen/dimen_200"
+            android:scaleType="centerCrop"
+            android:src="@drawable/drink_snack" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_120"
+        android:layout_margin="@dimen/dimen_10"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo" />
+
+</LinearLayout>

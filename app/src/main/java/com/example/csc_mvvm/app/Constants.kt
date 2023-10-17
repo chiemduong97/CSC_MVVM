@@ -101,3 +101,7 @@ object NotifyAction {
     const val ORDER_DESTROY = "ORDER_DESTROY"
     const val RECHARGE_SUCCESS = "RECHARGE_SUCCESS"
 }
+
+const val TYPE_ITEM = 1
+const val TYPE_MORE = 0
+const val MAX_ITEM_CATEGORY = 12

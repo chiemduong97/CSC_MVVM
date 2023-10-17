@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/line_bottom_item"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/dimen_15"
+    android:paddingVertical="@dimen/dimen_10">
+
+    <CheckBox
+        android:id="@+id/check_box"
+        android:layout_width="@dimen/dimen_24"
+        android:layout_height="@dimen/dimen_24"
+        android:layout_centerVertical="true"
+        android:button="@drawable/checkbox_layout"
+        android:clickable="false" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_toEndOf="@+id/check_box"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16"
+        tools:text="@string/branch_name_default" />
+
+    <ImageView
+        android:id="@+id/imv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/tv_address"
+        android:layout_alignTop="@+id/tv_distance"
+        android:layout_alignBottom="@+id/tv_distance"
+        android:src="@drawable/ic_location_point" />
+
+    <TextView
+        android:id="@+id/tv_distance"
+        style="@style/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_toEndOf="@id/imv_location"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_14"
+        tools:text="10.5 km" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        style="@style/normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imv_location"
+        android:layout_alignStart="@+id/tv_name"
+        android:textSize="@dimen/text_14"
+        tools:text="@string/branch_address_default" />
+
+
+</RelativeLayout>

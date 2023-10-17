@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dimen_120"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_5"
+        android:layout_marginVertical="@dimen/dimen_10"
+        app:cardCornerRadius="@dimen/dimen_5"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:id="@+id/lnl_see_more"
+            android:layout_width="@dimen/dimen_120"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_item_red_light"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/item_product_horizontal"
+                android:visibility="invisible" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    style="@style/normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/dimen_5"
+                    android:textAlignment="center"
+                    android:textColor="@color/red_light"
+                    tools:text="Xem tất cả sản phẩm thuộc thể loại nước giải khát" />
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_24"
+                    android:layout_height="@dimen/dimen_24"
+                    android:layout_below="@id/tv_description"
+                    android:layout_centerHorizontal="true"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_back"
+                    android:tint="@color/red_light" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

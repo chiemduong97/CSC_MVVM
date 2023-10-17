@@ -1,10 +1,9 @@
 package com.example.client.api.service
 
-import com.example.client.models.profile.DataProfileResponse
-import com.example.client.models.profile.ProfileResponse
+import com.example.csc_mvvm.data.dto.profile.DataProfileResponse
+import com.example.csc_mvvm.data.dto.profile.ProfileResponse
 import com.example.csc_mvvm.base.BaseResponse
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface UserService {

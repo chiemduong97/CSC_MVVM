@@ -3,7 +3,10 @@ package com.example.csc_mvvm.app
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
-import com.example.client.models.profile.ProfileModel
+import com.example.csc_mvvm.data.dto.branch.BranchModel
+import com.example.csc_mvvm.data.dto.cart.CartModel
+import com.example.csc_mvvm.data.dto.order.OrderLocation
+import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import com.google.gson.Gson
 
 class Preferences(context: Context) {
@@ -70,50 +73,50 @@ class Preferences(context: Context) {
 //        editor.apply()
 //    }
 //
-//    var branch: BranchModel?
-//        get() {
-//            val json: String = sharePreferences.getString(BRANCH_MODEL, "")
-//            if (TextUtils.isEmpty(json)) return null
-//            val gson = Gson()
-//            return try {
-//                gson.fromJson(json, BranchModel::class.java)
-//            } catch (e: Exception) {
-//                null
-//            }
-//        }
-//        set(branch) {
-//            val editor: SharedPreferences.Editor = sharePreferences.edit()
-//            val gson = Gson()
-//            var json: String? = ""
-//            try {
-//                json = gson.toJson(branch)
-//            } catch (ignored: Exception) {
-//            }
-//            editor.putString(BRANCH_MODEL, json)
-//            editor.apply()
-//        }
-//    var cart: CartModel
-//        get() {
-//            val json: String = sharePreferences.getString(CART_MODEL, "")
-//            if (TextUtils.isEmpty(json)) return CartModel()
-//            val gson = Gson()
-//            return try {
-//                gson.fromJson(json, CartModel::class.java)
-//            } catch (e: Exception) {
-//                CartModel()
-//            }
-//        }
-//        set(cart) {
-//            val editor: SharedPreferences.Editor = sharePreferences.edit()
-//            val gson = Gson()
-//            var json: String? = ""
-//            try {
-//                json = gson.toJson(cart)
-//            } catch (ignored: Exception) {
-//            }
-//            editor.putString(CART_MODEL, json)
-//            editor.apply()
-//        }
+    var branch: BranchModel?
+        get() {
+            val json: String = sharePreferences.getString(BRANCH_MODEL, "").orEmpty()
+            if (TextUtils.isEmpty(json)) return null
+            val gson = Gson()
+            return try {
+                gson.fromJson(json, BranchModel::class.java)
+            } catch (e: Exception) {
+                null
+            }
+        }
+        set(branch) {
+            val editor: SharedPreferences.Editor = sharePreferences.edit()
+            val gson = Gson()
+            var json: String? = ""
+            try {
+                json = gson.toJson(branch)
+            } catch (ignored: Exception) {
+            }
+            editor.putString(BRANCH_MODEL, json)
+            editor.apply()
+        }
+    var cart: CartModel
+        get() {
+            val json: String = sharePreferences.getString(CART_MODEL, "").orEmpty()
+            if (TextUtils.isEmpty(json)) return CartModel()
+            val gson = Gson()
+            return try {
+                gson.fromJson(json, CartModel::class.java)
+            } catch (e: Exception) {
+                CartModel()
+            }
+        }
+        set(cart) {
+            val editor: SharedPreferences.Editor = sharePreferences.edit()
+            val gson = Gson()
+            var json: String? = ""
+            try {
+                json = gson.toJson(cart)
+            } catch (ignored: Exception) {
+            }
+            editor.putString(CART_MODEL, json)
+            editor.apply()
+        }
 //    var paymentMethod: PaymentMethod?
 //        get() {
 //            val json: String = sharePreferences.getString(PAYMENT_METHOD, "")
@@ -136,29 +139,29 @@ class Preferences(context: Context) {
 //            editor.putString(PAYMENT_METHOD, json)
 //            editor.apply()
 //        }
-//    var orderLocation: OrderLocation
-//        get() {
-//            val json: String = sharePreferences.getString(ORDER_LOCATION, "")
-//            if (TextUtils.isEmpty(json)) return OrderLocation()
-//            val gson = Gson()
-//            return try {
-//                gson.fromJson(json, OrderLocation::class.java)
-//            } catch (e: Exception) {
-//                OrderLocation()
-//            }
-//        }
-//        set(orderLocation) {
-//            val editor: SharedPreferences.Editor = sharePreferences.edit()
-//            val gson = Gson()
-//            var json: String? = ""
-//            try {
-//                json = gson.toJson(orderLocation)
-//            } catch (ignored: Exception) {
-//            }
-//            editor.putString(ORDER_LOCATION, json)
-//            editor.apply()
-//        }
-//
+    var orderLocation: OrderLocation
+        get() {
+            val json: String = sharePreferences.getString(ORDER_LOCATION, "").orEmpty()
+            if (TextUtils.isEmpty(json)) return OrderLocation()
+            val gson = Gson()
+            return try {
+                gson.fromJson(json, OrderLocation::class.java)
+            } catch (e: Exception) {
+                OrderLocation()
+            }
+        }
+        set(orderLocation) {
+            val editor: SharedPreferences.Editor = sharePreferences.edit()
+            val gson = Gson()
+            var json: String? = ""
+            try {
+                json = gson.toJson(orderLocation)
+            } catch (ignored: Exception) {
+            }
+            editor.putString(ORDER_LOCATION, json)
+            editor.apply()
+        }
+
 //    fun deleteOrderLocation() {
 //        val editor: SharedPreferences.Editor = sharePreferences.edit()
 //        editor.remove(ORDER_LOCATION)

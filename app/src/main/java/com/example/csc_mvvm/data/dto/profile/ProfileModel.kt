@@ -1,4 +1,4 @@
-package com.example.client.models.profile
+package com.example.csc_mvvm.data.dto.profile
 
 import com.example.csc_mvvm.base.BaseModel
 import com.google.gson.annotations.SerializedName
@@ -10,7 +10,7 @@ data class ProfileModel(
     var fullname: String = "",
     var birthday: String = "",
     var phone: String = "",
-    var cscPoint: Double = 0.0,
+    var csc_point: Double = 0.0,
     var wallet: Double = 0.0
 ) : BaseModel()
 
@@ -22,8 +22,7 @@ data class ProfileResponse(
     var birthday: String?,
     var phone: String?,
     var wallet: Double?,
-    @SerializedName("csc_point")
-    var cscPoint: Double?
+    var csc_point: Double?
 ) : BaseModel() {
     fun toProfileModel() = ProfileModel(
         id = id ?: -1,
@@ -32,7 +31,7 @@ data class ProfileResponse(
         fullname = fullname.orEmpty(),
         birthday = birthday.orEmpty(),
         phone = phone.orEmpty(),
-        cscPoint = cscPoint ?: 0.0,
+        csc_point = csc_point ?: 0.0,
         wallet = wallet ?: 0.0
     )
 }
@@ -48,6 +47,6 @@ data class ProfileRequest(
     var fullname: String? = null,
     var birthday: String? = null,
     var phone: String? = null,
-    var newPassword: String? = null,
-    var oldPassword: String? = null,
+    var new_password: String? = null,
+    var old_password: String? = null,
 )

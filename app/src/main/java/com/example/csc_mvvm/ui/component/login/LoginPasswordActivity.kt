@@ -13,14 +13,16 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
-import com.example.client.models.profile.DataProfileResponse
-import com.example.client.models.profile.ProfileResponse
 import com.example.csc_mvvm.R
 import com.example.csc_mvvm.app.BundleKey
 import com.example.csc_mvvm.data.Resource
+import com.example.csc_mvvm.data.dto.profile.DataProfileResponse
+import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import com.example.csc_mvvm.databinding.ActivityLoginPasswordBinding
 import com.example.csc_mvvm.ui.base.BaseActivity
 import com.example.csc_mvvm.ui.base.ViewModelFactory
+import com.example.csc_mvvm.ui.component.main.MainActivity
+import com.example.csc_mvvm.ui.component.profile.UserViewModel
 import com.example.csc_mvvm.utils.gone
 import com.example.csc_mvvm.utils.show
 
@@ -35,7 +37,7 @@ class LoginPasswordActivity : BaseActivity() {
 
     private val email by lazy { intent?.getStringExtra(BundleKey.EMAIL).orEmpty() }
 
-    private val loginViewModel: LoginViewModel by viewModels {
+    private val loginViewModel: UserViewModel by viewModels {
         ViewModelFactory()
     }
     private lateinit var binding: ActivityLoginPasswordBinding
@@ -45,7 +47,7 @@ class LoginPasswordActivity : BaseActivity() {
         loginViewModel.loginPasswordLiveData.observe(this) {
             handleLoginPasswordResult(it)
         }
-        loginViewModel.getUserLiveData.observe(this) {
+        loginViewModel.userLiveData.observe(this) {
             handleGetUserResult(it)
         }
         observeErrorMessage(loginViewModel.errorLiveData)
@@ -111,12 +113,13 @@ class LoginPasswordActivity : BaseActivity() {
         }
     }
 
-    private fun handleGetUserResult(status: Resource<ProfileResponse>) {
+    private fun handleGetUserResult(status: Resource<ProfileModel>) {
         when (status) {
             is Resource.Success -> {
                 binding.rllLoading.gone()
                 setResult(RESULT_OK)
                 finish()
+                startActivity(MainActivity.newInstance(this))
             }
             is Resource.DataError -> {
                 binding.rllLoading.gone()
