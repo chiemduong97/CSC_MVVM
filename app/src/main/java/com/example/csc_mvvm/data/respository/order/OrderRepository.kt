@@ -14,28 +14,28 @@ import kotlin.coroutines.CoroutineContext
 class OrderRepository(
     private val remoteData: RemoteOrderData, private val context: CoroutineContext
 ) : OrderRepositorySource {
-    override fun requestCreateOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>> =
+    override suspend fun requestCreateOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>> =
         flow {
             emit(remoteData.requestCreateOrder(orderRequest))
         }.flowOn(context)
 
-    override fun requestGetOrder(orderCode: String): Flow<Resource<OrderModel>> = flow {
+    override suspend fun requestGetOrder(orderCode: String): Flow<Resource<OrderModel>> = flow {
         emit(remoteData.requestGetOrder(orderCode))
     }.flowOn(context)
 
-    override fun requestGetOrdersByUser(
+    override suspend fun requestGetOrdersByUser(
         userId: Int, page: Int, limit: Int
     ): Flow<Resource<List<OrderModel>>> = flow {
         emit(remoteData.requestGetOrdersByUser(userId, page, limit))
     }.flowOn(context)
 
-    override fun requestDestroyOrder(
+    override suspend fun requestDestroyOrder(
         orderCode: String, status: Int
     ): Flow<Resource<DataOrderResponse>> = flow {
         emit(remoteData.requestDestroyOrder(orderCode, status))
     }.flowOn(context)
 
-    override fun requestGetCountOrder(userId: Int): Flow<Resource<DataCountOrder>> =
+    override suspend fun requestGetCountOrder(userId: Int): Flow<Resource<DataCountOrder>> =
         flow {
             emit(remoteData.requestGetCountOrder(userId))
         }.flowOn(context)

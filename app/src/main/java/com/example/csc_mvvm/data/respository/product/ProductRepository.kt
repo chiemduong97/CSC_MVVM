@@ -14,7 +14,7 @@ class ProductRepository(
     private val localData: LocalData,
     private val context: CoroutineContext
 ) : ProductRepositorySource {
-    override fun requestGetByCategory(
+    override suspend fun requestGetByCategory(
         categoryId: Int,
         page: Int,
         limit: Int
@@ -24,7 +24,7 @@ class ProductRepository(
         }.flowOn(context)
 
 
-    override fun requestFilter(
+    override suspend fun requestFilter(
         query: String,
         page: Int,
         limit: Int
@@ -33,7 +33,7 @@ class ProductRepository(
             emit(remoteData.requestFilter(query, page, limit))
         }.flowOn(context)
 
-    override fun requestGetByUrl(
+    override suspend fun requestGetByUrl(
         url: String,
         page: Int,
         limit: Int

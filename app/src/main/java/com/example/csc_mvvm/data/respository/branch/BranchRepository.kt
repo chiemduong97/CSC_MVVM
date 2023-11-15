@@ -16,7 +16,7 @@ class BranchRepository(
     private val context: CoroutineContext
 ) : BranchRepositorySource {
 
-    override fun requestBranches(): Flow<Resource<Pair<List<BranchModel>, Int>>> =
+    override suspend fun requestBranches(): Flow<Resource<Pair<List<BranchModel>, Int>>> =
         flow {
             emit(
                 remoteData.requestGetBranches(
@@ -29,7 +29,7 @@ class BranchRepository(
             )
         }.flowOn(context)
 
-    override fun requestBranchFromLocal(): Flow<Resource<BranchModel>> =
+    override suspend fun requestBranchFromLocal(): Flow<Resource<BranchModel>> =
         flow {
             emit(localData.getBranch())
         }.flowOn(context)

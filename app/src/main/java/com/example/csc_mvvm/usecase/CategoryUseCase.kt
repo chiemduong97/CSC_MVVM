@@ -14,19 +14,19 @@ class CategoryUseCase {
     private val categoryRepository by lazy {
         CategoryRepository(
             RemoteCategoryData(ServiceGenerator.newInstance().create(CategoryService::class.java)),
-            Dispatchers.Default
+            Dispatchers.IO
         )
     }
 
-    fun getById(id: Int): Flow<Resource<CategoryModel>> {
+    suspend fun getById(id: Int): Flow<Resource<CategoryModel>> {
         return categoryRepository.requestGetById(id)
     }
 
-    fun getSuperCategories(): Flow<Resource<List<CategoryModel>>> {
+    suspend fun getSuperCategories(): Flow<Resource<List<CategoryModel>>> {
         return categoryRepository.requestGetSuperCategories()
     }
 
-    fun getCategories(categoryId: Int): Flow<Resource<List<CategoryModel>>> {
+    suspend fun getCategories(categoryId: Int): Flow<Resource<List<CategoryModel>>> {
         return categoryRepository.requestGetCategories(categoryId)
     }
 }

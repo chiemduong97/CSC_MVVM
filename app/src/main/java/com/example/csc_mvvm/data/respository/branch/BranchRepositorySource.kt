@@ -5,7 +5,7 @@ import com.example.csc_mvvm.data.dto.branch.BranchModel
 import kotlinx.coroutines.flow.Flow
 
 interface BranchRepositorySource {
-    fun requestBranches(): Flow<Resource<Pair<List<BranchModel>, Int>>>
+    suspend fun requestBranches(): Flow<Resource<Pair<List<BranchModel>, Int>>>
 
-    fun requestBranchFromLocal(): Flow<Resource<BranchModel>>
+    suspend fun requestBranchFromLocal(): Flow<Resource<BranchModel>>
 }

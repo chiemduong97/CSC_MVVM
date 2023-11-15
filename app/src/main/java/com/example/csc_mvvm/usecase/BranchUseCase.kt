@@ -16,15 +16,15 @@ class BranchUseCase {
         BranchRepository(
             RemoteBranchData(ServiceGenerator.newInstance().create(BranchService::class.java)),
             LocalData(Preferences.newInstance()),
-            Dispatchers.Default
+            Dispatchers.IO
         )
     }
 
-    fun getBranches(): Flow<Resource<Pair<List<BranchModel>, Int>>> {
+    suspend fun getBranches(): Flow<Resource<Pair<List<BranchModel>, Int>>> {
         return branchRepository.requestBranches()
     }
 
-    fun getBranchFromLocal(): Flow<Resource<BranchModel>> {
+    suspend fun getBranchFromLocal(): Flow<Resource<BranchModel>> {
         return branchRepository.requestBranchFromLocal()
     }
 }

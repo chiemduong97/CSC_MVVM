@@ -16,27 +16,27 @@ class OrderUseCase {
     private val orderRepository by lazy {
         OrderRepository(
             RemoteOrderData(ServiceGenerator.newInstance().create(OrderService::class.java)),
-            Dispatchers.Default
+            Dispatchers.IO
         )
     }
 
-    fun getOrders(userId: Int, page: Int, limit: Int): Flow<Resource<List<OrderModel>>> {
+    suspend fun getOrders(userId: Int, page: Int, limit: Int): Flow<Resource<List<OrderModel>>> {
         return orderRepository.requestGetOrdersByUser(userId, page, limit)
     }
 
-    fun createOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>> {
+    suspend fun createOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>> {
         return orderRepository.requestCreateOrder(orderRequest)
     }
 
-    fun getOrder(orderCode: String): Flow<Resource<OrderModel>> {
+    suspend fun getOrder(orderCode: String): Flow<Resource<OrderModel>> {
         return orderRepository.requestGetOrder(orderCode)
     }
 
-    fun destroyOrder(orderCode: String, status: Int): Flow<Resource<DataOrderResponse>> {
+    suspend fun destroyOrder(orderCode: String, status: Int): Flow<Resource<DataOrderResponse>> {
         return orderRepository.requestDestroyOrder(orderCode, status)
     }
 
-    fun getCountOrder(userId: Int): Flow<Resource<DataCountOrder>> {
+    suspend fun getCountOrder(userId: Int): Flow<Resource<DataCountOrder>> {
         return orderRepository.requestGetCountOrder(userId)
     }
 }

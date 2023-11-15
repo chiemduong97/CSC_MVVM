@@ -12,17 +12,17 @@ class CategoryRepository(
     private val remoteData: RemoteCategoryData, private val context: CoroutineContext
 ) : CategoryRepositorySource {
 
-    override fun requestGetById(id: Int): Flow<Resource<CategoryModel>> =
+    override suspend fun requestGetById(id: Int): Flow<Resource<CategoryModel>> =
         flow {
             emit(remoteData.requestGetById(id))
         }.flowOn(context)
 
-    override fun requestGetSuperCategories(): Flow<Resource<List<CategoryModel>>> =
+    override suspend fun requestGetSuperCategories(): Flow<Resource<List<CategoryModel>>> =
         flow {
             emit(remoteData.requestGetSuperCategories())
         }.flowOn(context)
 
-    override fun requestGetCategories(categoryId: Int): Flow<Resource<List<CategoryModel>>> =
+    override suspend fun requestGetCategories(categoryId: Int): Flow<Resource<List<CategoryModel>>> =
         flow {
             emit(remoteData.requestGetCategories(categoryId))
         }.flowOn(context)

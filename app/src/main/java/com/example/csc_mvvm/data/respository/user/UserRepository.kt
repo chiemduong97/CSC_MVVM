@@ -17,12 +17,12 @@ class UserRepository(
     private val localData: LocalData,
     private val context: CoroutineContext
 ) : UserRepositorySource {
-    override fun doCheckEmail(email: String): Flow<Resource<Any>> =
+    override suspend fun doCheckEmail(email: String): Flow<Resource<Any>> =
         flow {
             emit(remoteData.requestCheckEmail(email))
         }.flowOn(context)
 
-    override fun doRegister(
+    override suspend fun doRegister(
         fullName: String,
         phone: String,
         email: String,
@@ -31,41 +31,41 @@ class UserRepository(
         TODO("Not yet implemented")
     }
 
-    override fun doLogin(email: String, password: String): Flow<Resource<DataProfileResponse>> =
+    override suspend fun doLogin(email: String, password: String): Flow<Resource<DataProfileResponse>> =
         flow {
             emit(remoteData.requestLogin(email, password))
         }.flowOn(context)
 
-    override fun doGetUser(email: String): Flow<Resource<ProfileModel>> =
+    override suspend fun doGetUser(email: String): Flow<Resource<ProfileModel>> =
         flow {
             emit(remoteData.requestGetUser(email))
         }.flowOn(context)
 
-    override fun doGetUserFromLocal(): Flow<Resource<ProfileModel>> =
+    override suspend fun doGetUserFromLocal(): Flow<Resource<ProfileModel>> =
         flow {
             emit(localData.getUser())
         }.flowOn(context)
 
-    override fun updateInfo(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {
+    override suspend fun updateInfo(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {
         TODO("Not yet implemented")
     }
 
-    override fun updatePass(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {
+    override suspend fun updatePass(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {
         TODO("Not yet implemented")
     }
 
-    override fun updateAvatar(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {
+    override suspend fun updateAvatar(profileRequest: ProfileRequest): Flow<Resource<DataProfileResponse>> {
         TODO("Not yet implemented")
     }
 
-    override fun updateDeviceToken(
+    override suspend fun updateDeviceToken(
         email: String,
         deviceToken: String
     ): Flow<Resource<DataProfileResponse>> {
         TODO("Not yet implemented")
     }
 
-    override fun sendEmail(
+    override suspend fun sendEmail(
         email: String,
         phone: String,
         requestType: RequestType
@@ -73,11 +73,11 @@ class UserRepository(
         TODO("Not yet implemented")
     }
 
-    override fun verification(email: String, code: String): Flow<Resource<DataProfileResponse>> {
+    override suspend fun verification(email: String, code: String): Flow<Resource<DataProfileResponse>> {
         TODO("Not yet implemented")
     }
 
-    override fun resetPassword(
+    override suspend fun resetPassword(
         email: String,
         password: String
     ): Flow<Resource<DataProfileResponse>> {

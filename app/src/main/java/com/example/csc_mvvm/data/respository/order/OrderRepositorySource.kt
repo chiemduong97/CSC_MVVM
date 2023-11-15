@@ -8,14 +8,14 @@ import com.example.csc_mvvm.data.dto.order.OrderRequest
 import kotlinx.coroutines.flow.Flow
 
 interface OrderRepositorySource {
-    fun requestCreateOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>>
-    fun requestGetOrder(orderCode: String): Flow<Resource<OrderModel>>
-    fun requestGetOrdersByUser(
+    suspend fun requestCreateOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>>
+    suspend fun requestGetOrder(orderCode: String): Flow<Resource<OrderModel>>
+    suspend fun requestGetOrdersByUser(
         userId: Int,
         page: Int,
         limit: Int
     ): Flow<Resource<List<OrderModel>>>
 
-    fun requestDestroyOrder(orderCode: String, status: Int): Flow<Resource<DataOrderResponse>>
-    fun requestGetCountOrder(userId: Int): Flow<Resource<DataCountOrder>>
+    suspend fun requestDestroyOrder(orderCode: String, status: Int): Flow<Resource<DataOrderResponse>>
+    suspend fun requestGetCountOrder(userId: Int): Flow<Resource<DataCountOrder>>
 }

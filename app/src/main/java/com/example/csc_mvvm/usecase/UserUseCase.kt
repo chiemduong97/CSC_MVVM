@@ -17,23 +17,23 @@ class UserUseCase {
         UserRepository(
             RemoteUserData(ServiceGenerator.newInstance().create(UserService::class.java)),
             LocalData(Preferences.newInstance()),
-            Dispatchers.Default
+            Dispatchers.IO
         )
     }
 
-    fun checkEmail(email: String): Flow<Resource<Any>> {
+    suspend fun checkEmail(email: String): Flow<Resource<Any>> {
         return userRepository.doCheckEmail(email)
     }
 
-    fun login(email: String, password: String): Flow<Resource<DataProfileResponse>> {
+    suspend fun login(email: String, password: String): Flow<Resource<DataProfileResponse>> {
         return userRepository.doLogin(email, password)
     }
 
-    fun getUser(email: String): Flow<Resource<ProfileModel>> {
+    suspend fun getUser(email: String): Flow<Resource<ProfileModel>> {
         return userRepository.doGetUser(email)
     }
 
-    fun getUserFromLocal(): Flow<Resource<ProfileModel>> {
+    suspend fun getUserFromLocal(): Flow<Resource<ProfileModel>> {
         return userRepository.doGetUserFromLocal()
     }
 

@@ -16,11 +16,11 @@ class ProductUseCase {
         ProductRepository(
             RemoteProductData(ServiceGenerator.newInstance().create(ProductService::class.java)),
             LocalData(Preferences.newInstance()),
-            Dispatchers.Default
+            Dispatchers.IO
         )
     }
 
-    fun getByCategory(
+    suspend fun getByCategory(
         categoryId: Int,
         page: Int,
         limit: Int
@@ -28,7 +28,7 @@ class ProductUseCase {
         return productRepository.requestGetByCategory(categoryId, page, limit)
     }
 
-    fun filter(
+    suspend fun filter(
         query: String,
         page: Int,
         limit: Int
@@ -36,7 +36,7 @@ class ProductUseCase {
         return productRepository.requestFilter(query, page, limit)
     }
 
-    fun getByUrl(
+    suspend fun getByUrl(
         url: String,
         page: Int,
         limit: Int

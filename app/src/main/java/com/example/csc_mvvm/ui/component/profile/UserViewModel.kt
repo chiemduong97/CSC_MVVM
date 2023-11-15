@@ -33,6 +33,7 @@ class UserViewModel(private val userUseCase: UserUseCase) : BaseViewModel() {
                 _loginEmailLiveData.value = it
             }
         }
+
     }
 
     fun login(email: String, password: String) {
