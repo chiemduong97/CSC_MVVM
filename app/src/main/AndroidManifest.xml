@@ -37,6 +37,9 @@
             android:name=".ui.component.main.MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.component.branch.BranchActivity" />
+        <activity android:name=".ui.component.product.ProductActivity" />
+
+        <service android:name=".ui.component.cart.CartService"/>
     </application>
 
 </manifest>

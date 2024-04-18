@@ -3,7 +3,6 @@ package com.example.csc_mvvm.ui.component.product.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.csc_mvvm.R
@@ -17,7 +16,6 @@ import com.example.csc_mvvm.ui.component.product.ProductViewModel
 import com.example.csc_mvvm.utils.toVND
 
 class ProductsHorizontalAdapter(
-    private val viewLifecycleOwner: LifecycleOwner,
     private val products: List<ProductModel>,
     private val category: CategoryModel,
     private val productViewModel: ProductViewModel
@@ -82,7 +80,7 @@ class ProductHorizontalViewHolder(val binding: ItemProductHorizontalBinding) :
                 tvAddToCart.setTextColor(ContextCompat.getColor(root.context, R.color.gray_dark))
             }
             tvAddToCart.setOnClickListener {
-                productViewModel.addToCart(product)
+                productViewModel.showDialogAddToCart(product)
             }
             itemView.setOnClickListener {
                 productViewModel.openProductDetail(product)

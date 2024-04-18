@@ -20,26 +20,26 @@ import com.example.csc_mvvm.data.dto.profile.DataProfileResponse
 import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import com.example.csc_mvvm.databinding.ActivityLoginPasswordBinding
 import com.example.csc_mvvm.ui.base.BaseActivity
-import com.example.csc_mvvm.ui.base.ViewModelFactory
 import com.example.csc_mvvm.ui.component.main.MainActivity
 import com.example.csc_mvvm.ui.component.profile.UserViewModel
 import com.example.csc_mvvm.utils.gone
 import com.example.csc_mvvm.utils.show
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginPasswordActivity : BaseActivity() {
 
     companion object {
         @JvmStatic
-        fun newInstance(from: Activity, email: String): Intent = Intent(from, LoginPasswordActivity::class.java).apply {
-            putExtra(BundleKey.EMAIL, email)
-        }
+        fun newInstance(from: Activity, email: String): Intent =
+            Intent(from, LoginPasswordActivity::class.java).apply {
+                putExtra(BundleKey.EMAIL, email)
+            }
     }
 
     private val email by lazy { intent?.getStringExtra(BundleKey.EMAIL).orEmpty() }
 
-    private val loginViewModel: UserViewModel by viewModels {
-        ViewModelFactory()
-    }
+    private val loginViewModel: UserViewModel by viewModels()
     private lateinit var binding: ActivityLoginPasswordBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
@@ -71,13 +71,26 @@ class LoginPasswordActivity : BaseActivity() {
                         inputType = InputType.TYPE_CLASS_TEXT
                         setSelection(etPassword.text.length)
                     } else {
-                        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        inputType =
+                            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                         setSelection(etPassword.text.length)
                     }
                 }
                 addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    override fun beforeTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
                         if (s.length < 6) {
                             setButton(false, R.drawable.bg_btn_disable)
                         } else {
@@ -89,7 +102,7 @@ class LoginPasswordActivity : BaseActivity() {
                 })
             }
 
-            tvLogin.setOnClickListener{
+            tvLogin.setOnClickListener {
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 currentFocus?.let {
                     imm.hideSoftInputFromWindow(it.windowToken, 0)
@@ -98,7 +111,7 @@ class LoginPasswordActivity : BaseActivity() {
                 loginViewModel.login(email, etPassword.text.toString())
             }
             imvBack.setOnClickListener { finish() }
-            tvReset.setOnClickListener {  }
+            tvReset.setOnClickListener { }
         }
     }
 
@@ -109,6 +122,7 @@ class LoginPasswordActivity : BaseActivity() {
                 binding.rllLoading.gone()
                 status.errorCode?.let { loginViewModel.showError(it) }
             }
+
             else -> {}
         }
     }
@@ -121,10 +135,12 @@ class LoginPasswordActivity : BaseActivity() {
                 finish()
                 startActivity(MainActivity.newInstance(this))
             }
+
             is Resource.DataError -> {
                 binding.rllLoading.gone()
                 status.errorCode?.let { loginViewModel.showError(it) }
             }
+
             else -> {}
         }
     }

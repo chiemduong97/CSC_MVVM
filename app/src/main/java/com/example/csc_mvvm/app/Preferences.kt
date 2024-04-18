@@ -8,8 +8,10 @@ import com.example.csc_mvvm.data.dto.cart.CartModel
 import com.example.csc_mvvm.data.dto.order.OrderLocation
 import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class Preferences(context: Context) {
+class Preferences @Inject constructor(@ApplicationContext context: Context) {
     private val sharePreferences: SharedPreferences
 
     init {

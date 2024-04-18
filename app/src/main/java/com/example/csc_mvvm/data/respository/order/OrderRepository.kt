@@ -9,9 +9,10 @@ import com.example.csc_mvvm.data.remote.order.RemoteOrderData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class OrderRepository(
+class OrderRepository @Inject constructor(
     private val remoteData: RemoteOrderData, private val context: CoroutineContext
 ) : OrderRepositorySource {
     override suspend fun requestCreateOrder(orderRequest: OrderRequest): Flow<Resource<DataOrderResponse>> =

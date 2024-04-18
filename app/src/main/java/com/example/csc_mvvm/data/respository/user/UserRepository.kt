@@ -10,9 +10,10 @@ import com.example.csc_mvvm.data.remote.user.RemoteUserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class UserRepository(
+class UserRepository @Inject constructor(
     private val remoteData: RemoteUserData,
     private val localData: LocalData,
     private val context: CoroutineContext

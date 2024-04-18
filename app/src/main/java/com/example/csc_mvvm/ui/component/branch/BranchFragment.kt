@@ -11,7 +11,6 @@ import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.data.dto.branch.BranchModel
 import com.example.csc_mvvm.databinding.FragmentBranchBinding
 import com.example.csc_mvvm.ui.base.BaseCollectionFragment
-import com.example.csc_mvvm.ui.base.ViewModelFactory
 import com.example.csc_mvvm.ui.component.branch.adapter.BranchesAdapter
 import com.example.csc_mvvm.utils.gone
 import com.example.csc_mvvm.utils.show
@@ -20,9 +19,8 @@ class BranchFragment: BaseCollectionFragment<BranchViewModel>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
         get() = FragmentBranchBinding::inflate
     private val binding by lazy { binding<FragmentBranchBinding>() }
-    override val viewModel: BranchViewModel by activityViewModels { ViewModelFactory() }
+    override val viewModel: BranchViewModel by activityViewModels()
     private val mLayoutManager by lazy { LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) }
-    private val mBranches = mutableListOf<BranchModel>()
 
     override fun observeViewModel() {
         viewModel.branchesLiveData.observe(viewLifecycleOwner) {
@@ -57,19 +55,22 @@ class BranchFragment: BaseCollectionFragment<BranchViewModel>() {
                 hideLoading()
                 binding.apply {
                     status.data?.let { branches ->
-                        mBranches.addAll(branches.first)
-                        imvEmpty.gone()
-                        recyclerView.run {
-                            show()
-                            layoutManager = mLayoutManager
-                            adapter = BranchesAdapter(mBranches, branches.second, viewModel)
+                        if (branches.first.isNotEmpty()) {
+                            imvEmpty.gone()
+                            recyclerView.run {
+                                show()
+                                layoutManager = mLayoutManager
+                                adapter = BranchesAdapter(branches.first, branches.second, viewModel)
+                            }
+                        } else {
+                            imvEmpty.show()
                         }
                     }
-
                 }
             }
             is Resource.DataError -> {
                 hideLoading()
+                binding.imvEmpty.show()
                 status.errorCode?.let { viewModel.showError(it) }
             }
         }

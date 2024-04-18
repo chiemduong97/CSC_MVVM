@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun observeViewModel()
-    protected abstract fun initViewBinding()
+    abstract fun initViewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,16 @@ abstract class BaseActivity : AppCompatActivity() {
         bindData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getCart()
+    }
+
     protected open fun initData() {}
     protected open fun bindData() {}
     protected open fun bindComponent() {}
     protected open fun bindEvent() {}
+
+    protected open fun getCart() {}
 
 }

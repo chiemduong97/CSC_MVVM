@@ -7,15 +7,15 @@ import com.example.csc_mvvm.app.EventKey
 import com.example.csc_mvvm.app.Preferences
 import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.data.dto.branch.BranchModel
-import com.example.csc_mvvm.data.dto.event.Event
 import com.example.csc_mvvm.data.dto.event.ValueEvent
 import com.example.csc_mvvm.ui.base.BaseCollectionViewModel
-import com.example.csc_mvvm.usecase.BranchUseCase
+import com.example.csc_mvvm.usecase.branch.BranchUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BranchViewModel(private val branchUseCase: BranchUseCase) : BaseCollectionViewModel() {
-
-    private val preferences by lazy { Preferences.newInstance() }
+@HiltViewModel
+class BranchViewModel @Inject constructor(private val branchUseCase: BranchUseCase, private val preferences: Preferences) : BaseCollectionViewModel() {
 
     private val _branchesLiveData = MutableLiveData<Resource<Pair<List<BranchModel>, Int>>>()
     val branchesLiveData: LiveData<Resource<Pair<List<BranchModel>, Int>>> get() = _branchesLiveData

@@ -2,9 +2,7 @@ package com.example.csc_mvvm.ui.component.home
 
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -21,22 +19,25 @@ import com.example.csc_mvvm.app.EventKey
 import com.example.csc_mvvm.app.MAX_ITEM_CATEGORY
 import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.data.dto.branch.BranchModel
+import com.example.csc_mvvm.data.dto.cart.CartProductModel
 import com.example.csc_mvvm.data.dto.category.CategoryModel
 import com.example.csc_mvvm.data.dto.category.HomeSectionModel
+import com.example.csc_mvvm.data.dto.product.ProductModel
 import com.example.csc_mvvm.data.dto.profile.ProfileModel
 import com.example.csc_mvvm.databinding.FragmentHomeBinding
 import com.example.csc_mvvm.ui.base.BaseFragment
-import com.example.csc_mvvm.ui.base.ViewModelFactory
 import com.example.csc_mvvm.ui.component.branch.BranchActivity
 import com.example.csc_mvvm.ui.component.branch.BranchViewModel
 import com.example.csc_mvvm.ui.component.category.CategoryViewModel
 import com.example.csc_mvvm.ui.component.category.adapter.CategoriesAdapter
+import com.example.csc_mvvm.ui.component.main.MainActivity
+import com.example.csc_mvvm.ui.component.product.ProductActivity
 import com.example.csc_mvvm.ui.component.product.ProductViewModel
 import com.example.csc_mvvm.ui.component.product.adapter.ProductSectionsAdapter
 import com.example.csc_mvvm.ui.component.profile.UserViewModel
+import com.example.csc_mvvm.ui.dialog.AddToCartDialog
 import com.example.csc_mvvm.utils.gone
 import com.example.csc_mvvm.utils.show
-import com.google.gson.Gson
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -47,10 +48,10 @@ class HomeFragment : BaseFragment() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
         get() = FragmentHomeBinding::inflate
     private val binding by lazy { binding<FragmentHomeBinding>() }
-    private val userViewModel: UserViewModel by activityViewModels { ViewModelFactory() }
-    private val branchViewModel: BranchViewModel by activityViewModels { ViewModelFactory() }
-    private val categoryViewModel: CategoryViewModel by activityViewModels { ViewModelFactory() }
-    private val productViewModel: ProductViewModel by activityViewModels { ViewModelFactory() }
+    private val userViewModel: UserViewModel by activityViewModels()
+    private val branchViewModel: BranchViewModel by activityViewModels()
+    private val categoryViewModel: CategoryViewModel by activityViewModels()
+    private val productViewModel: ProductViewModel by activityViewModels()
     private lateinit var activityResultLauncherBranch: ActivityResultLauncher<Intent>
 
     override fun observeViewModel() {
@@ -67,6 +68,18 @@ class HomeFragment : BaseFragment() {
         productViewModel.sectionsLiveData.observe(viewLifecycleOwner) { sections ->
             showHomeSections(sections)
         }
+        productViewModel.showDialogAddToCartLiveData.observe(viewLifecycleOwner) {
+            showAddToCartDialog(it)
+        }
+        productViewModel.cartLiveData.observe(viewLifecycleOwner) {
+            showCart(it)
+        }
+        productViewModel.openProductsLiveData.observe(viewLifecycleOwner) {
+            openProducts(it)
+        }
+        productViewModel.openProductDetailLiveData.observe(viewLifecycleOwner) {
+            openProductDetail(it)
+        }
     }
 
     override fun bindData() {
@@ -74,6 +87,7 @@ class HomeFragment : BaseFragment() {
         branchViewModel.getBranchFromLocal()
         categoryViewModel.getSuperCategories()
         productViewModel.getSections()
+        productViewModel.getCart()
     }
 
     override fun bindEvent() {
@@ -81,11 +95,15 @@ class HomeFragment : BaseFragment() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == AppCompatActivity.RESULT_OK) {
                     result.data?.let {
-                        val branchResult = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            it.getSerializableExtra(EventKey.CHANGE_BRANCH, BranchModel::class.java)
-                        } else {
-                            it.getSerializableExtra(EventKey.CHANGE_BRANCH) as? BranchModel
-                        }
+                        val branchResult =
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                it.getSerializableExtra(
+                                    EventKey.CHANGE_BRANCH,
+                                    BranchModel::class.java
+                                )
+                            } else {
+                                it.getSerializableExtra(EventKey.CHANGE_BRANCH) as? BranchModel
+                            }
                         branchResult?.run { showBranch(Resource.Success(this)) }
                     }
                 }
@@ -107,7 +125,7 @@ class HomeFragment : BaseFragment() {
                     status.data?.let {
                         val format: DateFormat = SimpleDateFormat("HH", Locale.getDefault())
                         val greet =
-                            when(format.format(Calendar.getInstance().time).toInt()) {
+                            when (format.format(Calendar.getInstance().time).toInt()) {
                                 in 4..10 -> getString(R.string.greet_morning)
                                 in 11..12 -> getString(R.string.greet_lunch)
                                 in 13..17 -> getString(R.string.greet_evening)
@@ -148,7 +166,8 @@ class HomeFragment : BaseFragment() {
                 binding.apply {
                     status.data?.let { categories ->
                         recyclerViewCategory.show()
-                        recyclerViewCategory.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
+                        recyclerViewCategory.layoutManager =
+                            GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
                         val adapter = CategoriesAdapter(categories.take(MAX_ITEM_CATEGORY), {
 
                         }, {
@@ -158,6 +177,7 @@ class HomeFragment : BaseFragment() {
                     }
                 }
             }
+
             is Resource.DataError -> {
                 hideLoading()
                 binding.recyclerViewCategory.gone()
@@ -171,7 +191,23 @@ class HomeFragment : BaseFragment() {
             recyclerViewSection.show()
             val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             recyclerViewSection.layoutManager = manager
-            recyclerViewSection.adapter = ProductSectionsAdapter(viewLifecycleOwner, sections, productViewModel)
+            recyclerViewSection.adapter =
+                ProductSectionsAdapter(viewLifecycleOwner, sections, productViewModel)
+        }
+    }
+
+    private fun showAddToCartDialog(product: ProductModel) {
+        AddToCartDialog(product, {
+            productViewModel.addToCart(it)
+        }, {
+            openProductDetail(it)
+        }).show(childFragmentManager)
+    }
+
+    private fun showCart(products: List<CartProductModel>) {
+        if (activity is MainActivity) {
+            if (products.isNotEmpty()) (activity as MainActivity).showCart(products.size)
+            else (activity as MainActivity).hideCart()
         }
     }
 
@@ -188,6 +224,18 @@ class HomeFragment : BaseFragment() {
     private fun observeErrorMessage(message: LiveData<String>) {
         message.observe(this) {
             showToastMessage(it)
+        }
+    }
+
+    private fun openProducts(category: CategoryModel) {
+        activity?.run {
+            startActivity(ProductActivity.newInstance(this, category))
+        }
+    }
+
+    private fun openProductDetail(product: ProductModel) {
+        activity?.let {
+            startActivity(ProductActivity.newInstance(it, product, true))
         }
     }
 }

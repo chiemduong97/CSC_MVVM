@@ -9,11 +9,14 @@ import com.example.csc_mvvm.data.dto.order.OrderRequest
 import com.example.csc_mvvm.data.dto.order.OrderResponse
 import com.example.csc_mvvm.data.dto.order.toOrders
 import com.example.csc_mvvm.data.dto.order.toOrdersResponse
+import com.example.csc_mvvm.data.remote.ServiceGenerator
 import com.example.csc_mvvm.data.remote.service.OrderService
 import retrofit2.Call
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
-class RemoteOrderData(private val service: OrderService) : RemoteOrderDataSource {
+class RemoteOrderData @Inject constructor(private val serviceGenerator: ServiceGenerator) : RemoteOrderDataSource {
+    private val service by lazy { serviceGenerator.newInstance().create(OrderService::class.java) }
 
     private suspend fun processCall(responseCall: () -> Call<*>): Any? {
         val response = responseCall.invoke().awaitResponse()

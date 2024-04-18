@@ -6,10 +6,14 @@ import com.example.csc_mvvm.data.dto.profile.ProfileResponse
 import com.example.csc_mvvm.base.BaseResponse
 import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.data.dto.profile.ProfileModel
+import com.example.csc_mvvm.data.remote.ServiceGenerator
 import retrofit2.Call
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
-class RemoteUserData(private val service: UserService) : RemoteUserDataSource {
+class RemoteUserData @Inject constructor(private val serviceGenerator: ServiceGenerator) : RemoteUserDataSource {
+    private val service by lazy { serviceGenerator.newInstance().create(UserService::class.java) }
+
     private suspend fun processCall(responseCall: () -> Call<*>): Any? {
         val response = responseCall.invoke().awaitResponse()
         return if (response.isSuccessful) {

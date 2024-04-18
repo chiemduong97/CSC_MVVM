@@ -7,7 +7,7 @@ abstract class BaseCollectionViewModel : BaseViewModel() {
     private var isLoadingMore = false
     protected var page = 1
     protected val limit = 10
-    protected var loadMore = true
+    private var loadMore = true
     private var _isLoadMoreLiveData = MutableLiveData<Boolean>()
     val isLoadMoreLiveData : LiveData<Boolean> get() = _isLoadMoreLiveData
 

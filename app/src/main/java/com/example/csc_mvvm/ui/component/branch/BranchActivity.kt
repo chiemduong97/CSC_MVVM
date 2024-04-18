@@ -6,7 +6,9 @@ import com.example.csc_mvvm.R
 import com.example.csc_mvvm.databinding.ActivityEmptyBinding
 import com.example.csc_mvvm.ui.base.BaseActivity
 import com.example.csc_mvvm.utils.ActivityUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BranchActivity : BaseActivity() {
 
     companion object {

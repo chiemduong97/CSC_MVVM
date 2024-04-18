@@ -50,6 +50,10 @@ abstract class BaseCollectionFragment<VM: BaseCollectionViewModel>: BaseFragment
                 }
             })
         }
+        viewModel.isLoadMoreLiveData.observe(viewLifecycleOwner) {
+            if (it) addLoadMore()
+            else removeLoadMore()
+        }
         return rootView
     }
 

@@ -7,9 +7,10 @@ import com.example.csc_mvvm.data.remote.product.RemoteProductData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class ProductRepository(
+class ProductRepository @Inject constructor(
     private val remoteData: RemoteProductData,
     private val localData: LocalData,
     private val context: CoroutineContext
@@ -20,7 +21,7 @@ class ProductRepository(
         limit: Int
     ): Flow<Resource<List<ProductModel>>> =
         flow {
-            emit(remoteData.requestGetByCategory(categoryId, page, limit))
+            emit(remoteData.requestGetByCategory(categoryId, page, limit, localData.getCart().data!!))
         }.flowOn(context)
 
 
@@ -30,7 +31,7 @@ class ProductRepository(
         limit: Int
     ): Flow<Resource<List<ProductModel>>> =
         flow {
-            emit(remoteData.requestFilter(query, page, limit))
+            emit(remoteData.requestFilter(query, page, limit, localData.getCart().data!!))
         }.flowOn(context)
 
     override suspend fun requestGetByUrl(
@@ -39,7 +40,7 @@ class ProductRepository(
         limit: Int
     ): Flow<Resource<List<ProductModel>>> =
         flow {
-            emit(remoteData.requestGetByUrl(url, page, limit, localData.getUser().data?.id ?: -1))
+            emit(remoteData.requestGetByUrl(url, page, limit, localData.getUser().data?.id ?: -1, localData.getCart().data!!))
         }.flowOn(context)
 
 }

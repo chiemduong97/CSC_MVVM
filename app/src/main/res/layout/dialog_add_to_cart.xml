@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/v_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_48"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_16"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/add_to_cart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_16" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imv_back"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_24"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:src="@drawable/ic_close" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/rlt_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/dimen_10"
+            app:cardCornerRadius="@dimen/dimen_5"
+            app:cardElevation="0dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imv_product_avatar"
+                android:layout_width="@dimen/dimen_100"
+                android:layout_height="@dimen/dimen_80"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_category_default" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/lnl_product"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_80"
+            android:layout_alignParentTop="true"
+            android:layout_marginVertical="@dimen/dimen_10"
+            android:layout_toEndOf="@id/cv_avatar"
+            android:orientation="vertical"
+            android:layout_toStartOf="@id/imv_next">
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_5"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14"
+                tools:text="@string/item_product_name" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                style="@style/normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_5"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12"
+                tools:text="@string/item_product_price" />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imv_next"
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_40"
+            android:src="@drawable/ic_next"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/cv_avatar"
+            android:layout_alignBottom="@+id/cv_avatar"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_description"
+        style="@style/normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlt_product"
+        android:layout_margin="@dimen/dimen_10"
+        android:ellipsize="end"
+        android:gravity="start|center"
+        android:maxLines="3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_12"
+        tools:text="Sản phẩm này là abc 12323" />
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_10"
+        android:layout_below="@+id/tv_description"
+        android:background="@color/gray_light" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line"
+        android:layout_margin="@dimen/dimen_15"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/lnl_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_10"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btn_minus"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_24"
+                android:background="@drawable/bg_gray_f0_radius_5_stroke"
+                android:padding="10dp"
+                android:src="@drawable/ic_minus"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_quantity"
+                style="@style/bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_5"
+                android:paddingHorizontal="@dimen/dimen_8"
+                android:paddingVertical="@dimen/dimen_4"
+                android:textColor="@color/black"
+                tools:text="2" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_plus"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_5"
+                android:background="@drawable/bg_gray_f0_radius_5_stroke"
+                android:padding="@dimen/dimen_10"
+                android:src="@drawable/ic_plus"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_add_to_cart"
+            style="@style/bold"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"
+            android:background="@drawable/bg_btn"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_15"
+            android:paddingVertical="@dimen/dimen_10"
+            android:text="@string/add_to_cart"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16" />
+    </LinearLayout>
+
+</RelativeLayout>

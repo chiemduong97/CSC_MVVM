@@ -15,21 +15,19 @@ import com.example.csc_mvvm.R
 import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.databinding.ActivityLoginEmailBinding
 import com.example.csc_mvvm.ui.base.BaseActivity
-import com.example.csc_mvvm.ui.base.ViewModelFactory
 import com.example.csc_mvvm.ui.component.profile.UserViewModel
 import com.example.csc_mvvm.utils.gone
 import com.example.csc_mvvm.utils.show
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginEmailActivity : BaseActivity() {
 
     companion object {
         fun newInstance(from: Activity): Intent = Intent(from, LoginEmailActivity::class.java)
     }
 
-    private val userViewModel: UserViewModel by viewModels {
-        ViewModelFactory()
-    }
+    private val userViewModel: UserViewModel by viewModels()
     private lateinit var binding: ActivityLoginEmailBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     override fun observeViewModel() {

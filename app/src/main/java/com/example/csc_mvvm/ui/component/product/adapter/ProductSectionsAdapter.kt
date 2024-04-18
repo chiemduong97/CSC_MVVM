@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.data.dto.category.CategoryModel
 import com.example.csc_mvvm.data.dto.category.HomeSectionModel
+import com.example.csc_mvvm.data.dto.loading.LoadingMode
 import com.example.csc_mvvm.data.dto.product.ProductModel
 import com.example.csc_mvvm.databinding.ItemProductsBinding
 import com.example.csc_mvvm.ui.component.product.ProductViewModel
@@ -45,22 +46,21 @@ class ProductSectionsViewHolder(private val binding: ItemProductsBinding) :
         productViewModel: ProductViewModel
     ) {
         binding.apply {
-            tvMore.setOnClickListener { productViewModel.seeAllProducts(category) }
             productViewModel.productsLiveData.observe(viewLifecycleOwner) { status ->
-                showProducts(viewLifecycleOwner, status, category, productViewModel)
+                showProducts(status, category, productViewModel)
             }
+            tvMore.setOnClickListener { productViewModel.seeAllProducts(category) }
             if (category is HomeSectionModel) {
                 tvName.text = category.title
-                productViewModel.getProductsByUrl(category.id, category.url, 1, 10)
+                productViewModel.getProductsByUrl(category.id, category.url, 1, 10, LoadingMode.LOAD)
             } else {
                 tvName.text = category.name
-                productViewModel.getProductsByCategory(category.id, 1, 10)
+                productViewModel.getProductsByCategory(category.id, 1, 10, LoadingMode.LOAD)
             }
         }
     }
 
     private fun showProducts(
-        viewLifecycleOwner: LifecycleOwner,
         status: Pair<Resource<List<ProductModel>>, Int>,
         category: CategoryModel,
         productViewModel: ProductViewModel
@@ -82,7 +82,6 @@ class ProductSectionsViewHolder(private val binding: ItemProductsBinding) :
                                     LinearLayoutManager(root.context, RecyclerView.HORIZONTAL, false)
                                 val productsHorizontalAdapter =
                                     ProductsHorizontalAdapter(
-                                        viewLifecycleOwner,
                                         products + ProductModel(),
                                         category,
                                         productViewModel
@@ -94,6 +93,7 @@ class ProductSectionsViewHolder(private val binding: ItemProductsBinding) :
                     is Resource.DataError -> {
                         imvEmpty.show()
                         recyclerView.gone()
+                        rllLoading.gone()
                     }
                 }
             }

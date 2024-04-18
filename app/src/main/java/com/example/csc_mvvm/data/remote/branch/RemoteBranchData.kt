@@ -5,12 +5,15 @@ import com.example.csc_mvvm.data.Resource
 import com.example.csc_mvvm.data.dto.branch.BranchModel
 import com.example.csc_mvvm.data.dto.branch.toBranches
 import com.example.csc_mvvm.data.dto.branch.toBranchesResponse
+import com.example.csc_mvvm.data.remote.ServiceGenerator
 import com.example.csc_mvvm.data.remote.service.BranchService
 import com.google.android.gms.maps.model.LatLng
 import retrofit2.Call
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
-class RemoteBranchData(private val service: BranchService) : RemoteBranchDataSource {
+class RemoteBranchData @Inject constructor(private val serviceGenerator: ServiceGenerator) : RemoteBranchDataSource {
+    private val service by lazy { serviceGenerator.newInstance().create(BranchService::class.java) }
 
     private suspend fun processCall(responseCall: () -> Call<*>): Any? {
         val response = responseCall.invoke().awaitResponse()

@@ -7,8 +7,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-object ServiceGenerator {
+class ServiceGenerator @Inject constructor(private val preferences: Preferences) {
     fun newInstance(): Retrofit {
         val okHttpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
         val headerInterceptor = Interceptor { chain ->
@@ -16,7 +17,7 @@ object ServiceGenerator {
 
             val request = original.newBuilder()
                 .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer ${Preferences.newInstance().accessToken}")
+                .header("Authorization", "Bearer ${preferences.accessToken}")
                 .method(original.method, original.body)
                 .build()
 
@@ -30,7 +31,7 @@ object ServiceGenerator {
         okHttpBuilder.connectTimeout(30, TimeUnit.SECONDS)
         okHttpBuilder.readTimeout(30, TimeUnit.SECONDS)
         return Retrofit.Builder()
-            .baseUrl("http://192.168.0.203:8585/").client(okHttpBuilder.build())
+            .baseUrl("http://192.168.1.20:8585/").client(okHttpBuilder.build())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

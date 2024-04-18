@@ -6,9 +6,10 @@ import com.example.csc_mvvm.data.remote.category.RemoteCategoryData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class CategoryRepository(
+class CategoryRepository @Inject constructor(
     private val remoteData: RemoteCategoryData, private val context: CoroutineContext
 ) : CategoryRepositorySource {
 

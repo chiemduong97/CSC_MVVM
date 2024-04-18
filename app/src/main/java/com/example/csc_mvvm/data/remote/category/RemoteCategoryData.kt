@@ -6,11 +6,17 @@ import com.example.csc_mvvm.data.dto.category.CategoryModel
 import com.example.csc_mvvm.data.dto.category.CategoryResponse
 import com.example.csc_mvvm.data.dto.category.toCategories
 import com.example.csc_mvvm.data.dto.category.toCategoriesResponse
+import com.example.csc_mvvm.data.remote.ServiceGenerator
 import com.example.csc_mvvm.data.remote.service.CategoryService
 import retrofit2.Call
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
-class RemoteCategoryData(private val service: CategoryService) : RemoteCategoryDataSource {
+class RemoteCategoryData @Inject constructor(private val serviceGenerator: ServiceGenerator) :
+    RemoteCategoryDataSource {
+    private val service by lazy {
+        serviceGenerator.newInstance().create(CategoryService::class.java)
+    }
 
     private suspend fun processCall(responseCall: () -> Call<*>): Any? {
         val response = responseCall.invoke().awaitResponse()
@@ -42,7 +48,10 @@ class RemoteCategoryData(private val service: CategoryService) : RemoteCategoryD
             is BaseResponse<*> -> {
                 when {
                     response.isError -> Resource.DataError(errorCode = response.code)
-                    response.data is List<*> -> Resource.Success(data = (response.data as List<*>).toCategoriesResponse().toCategories())
+                    response.data is List<*> -> Resource.Success(
+                        data = (response.data as List<*>).toCategoriesResponse().toCategories()
+                    )
+
                     else -> Resource.DataError(errorCode = 1001)
                 }
             }
@@ -58,7 +67,10 @@ class RemoteCategoryData(private val service: CategoryService) : RemoteCategoryD
             is BaseResponse<*> -> {
                 when {
                     response.isError -> Resource.DataError(errorCode = response.code)
-                    response.data is List<*> -> Resource.Success(data = (response.data as List<*>).toCategoriesResponse().toCategories())
+                    response.data is List<*> -> Resource.Success(
+                        data = (response.data as List<*>).toCategoriesResponse().toCategories()
+                    )
+
                     else -> Resource.DataError(errorCode = 1001)
                 }
             }
