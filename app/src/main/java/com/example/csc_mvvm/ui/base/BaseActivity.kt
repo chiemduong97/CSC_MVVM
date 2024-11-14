@@ -13,6 +13,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initViewBinding()
         observeViewModel()
+        //tt 2
     }
 
     override fun setContentView(layoutResID: Int) {
