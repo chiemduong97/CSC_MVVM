@@ -32,6 +32,7 @@ class BranchFragment: BaseCollectionFragment<BranchViewModel>() {
                 finish()
             }
         }
+        //test 
     }
 
     override fun onRefresh() {
